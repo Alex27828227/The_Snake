@@ -133,3 +133,6 @@ dmypy.json
 .deployment
 
 .idea
+
+# my_venv
+snake_venv/
