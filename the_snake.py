@@ -64,18 +64,19 @@ class Apple(GameObject):
     а позицию - получаем из описанного ниже метода - <randomize_position>!.
     """
 
-    def __init__(self, body_color=APPLE_COLOR, occupied_positions=[]):
-        super().__init__(body_color=APPLE_COLOR)
+    def __init__(self, body_color=APPLE_COLOR, occupied_positions=None):
+        super().__init__(body_color)
         self.body_color = body_color
         self.randomize_position(occupied_positions)
 
-    def randomize_position(self, occupied_positions):
+    def randomize_position(self, occupied_positions=None):
         """
         Генерируем случайную позицию яблока.
 
         С помощью параметра <occupied_positions> исключаем
         появления яблока на месте змеи.
         """
+        occupied_positions = occupied_positions or []
         while True:
             self.position = (
                 randrange(0, SCREEN_WIDTH, 20),
