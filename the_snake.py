@@ -53,7 +53,6 @@ class GameObject():
 
     def draw(self):
         """Метод для отрисовки объектов."""
-        pass
 
 
 class Apple(GameObject):
@@ -66,21 +65,19 @@ class Apple(GameObject):
 
     def __init__(self, body_color=APPLE_COLOR, occupied_positions=None):
         super().__init__(body_color)
-        self.body_color = body_color
-        self.randomize_position(occupied_positions)
+        self.randomize_position(occupied_positions or [])
 
-    def randomize_position(self, occupied_positions=None):
+    def randomize_position(self, occupied_positions):
         """
         Генерируем случайную позицию яблока.
 
         С помощью параметра <occupied_positions> исключаем
         появления яблока на месте змеи.
         """
-        occupied_positions = occupied_positions or []
         while True:
             self.position = (
-                randrange(0, SCREEN_WIDTH, 20),
-                randrange(0, SCREEN_HEIGHT, 20)
+                randrange(0, SCREEN_WIDTH, GRID_SIZE),
+                randrange(0, SCREEN_HEIGHT, GRID_SIZE)
             )
             if self.position not in occupied_positions:
                 break
@@ -112,16 +109,12 @@ class Snake(GameObject):
     Определяем атрибут <last>- атрибут с координатами последнего элемента Змеи.
     """
 
-    next_direction = None
-
     def __init__(self, body_color=SNAKE_COLOR):
-        super().__init__(body_color=SNAKE_COLOR)
-        self.length = 1
-        self.body_color = body_color
-        self.direction = RIGHT
+        super().__init__(body_color)
         self.reset()
-        self.next_direction = self.update_direction()
-        self.last = self.position
+        self.direction = RIGHT
+        self.next_direction = None
+        self.last = None
 
     def update_direction(self):
         """Метод в котором мы обновляем текущее направление движения Змеи."""
@@ -212,8 +205,9 @@ def main():
         if snake.get_head_position() == apple.position:
             snake.length += 1
             apple.randomize_position(snake.positions)
-        if snake.get_head_position() in snake.positions[1:]:
+        elif snake.get_head_position() in snake.positions[1:]:
             snake.reset()
+            apple.randomize_position(snake.positions)
             screen.fill(BOARD_BACKGROUND_COLOR)
         snake.draw()
         apple.draw()
