@@ -1,4 +1,4 @@
-from random import randrange
+from random import randrange, choice
 
 import pygame as pg
 
@@ -113,7 +113,6 @@ class Snake(GameObject):
         super().__init__(body_color)
         self.reset()
         self.direction = RIGHT
-        self.next_direction = None
         self.last = None
 
     def update_direction(self):
@@ -129,6 +128,7 @@ class Snake(GameObject):
         Сбрасывает длинну объекта змея, а так же
         присваивает ему начальные координаты.
         """
+        self.next_direction = choice([UP, LEFT, DOWN, RIGHT])
         self.positions = [self.position]
         self.length = 1
 
@@ -205,7 +205,7 @@ def main():
         if snake.get_head_position() == apple.position:
             snake.length += 1
             apple.randomize_position(snake.positions)
-        elif snake.get_head_position() in snake.positions[1:]:
+        elif snake.get_head_position() in snake.positions[4:]:
             snake.reset()
             apple.randomize_position(snake.positions)
             screen.fill(BOARD_BACKGROUND_COLOR)
