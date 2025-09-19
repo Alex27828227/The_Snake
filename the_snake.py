@@ -1,4 +1,4 @@
-from random import randrange, choice
+from random import choice, randrange
 
 import pygame as pg
 
