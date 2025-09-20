@@ -112,8 +112,7 @@ class Snake(GameObject):
     def __init__(self, body_color=SNAKE_COLOR):
         super().__init__(body_color)
         self.reset()
-        self.direction = RIGHT
-        self.last = None
+        self.direction = choice([UP, LEFT, DOWN, RIGHT])
 
     def update_direction(self):
         """Метод в котором мы обновляем текущее направление движения Змеи."""
@@ -128,9 +127,10 @@ class Snake(GameObject):
         Сбрасывает длинну объекта змея, а так же
         присваивает ему начальные координаты.
         """
-        self.next_direction = choice([UP, LEFT, DOWN, RIGHT])
+        self.next_direction = None
         self.positions = [self.position]
         self.length = 1
+        self.last = None
 
     def get_head_position(self):
         """Метод возвращает первый элемент списка координат объекта змея."""
